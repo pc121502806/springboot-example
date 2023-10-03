@@ -1,5 +1,6 @@
 package com.wade.springbootexample.controller;
 
+import com.wade.springbootexample.constant.ProductCategory;
 import com.wade.springbootexample.dto.ProductRequest;
 import com.wade.springbootexample.model.Product;
 import com.wade.springbootexample.service.ProductService;
@@ -18,8 +19,11 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search
+    ){
+        List<Product> productList = productService.getProducts(category, search);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
