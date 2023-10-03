@@ -1,6 +1,7 @@
 package com.wade.springbootexample.controller;
 
 import com.wade.springbootexample.constant.ProductCategory;
+import com.wade.springbootexample.dto.ProductQueryParams;
 import com.wade.springbootexample.dto.ProductRequest;
 import com.wade.springbootexample.model.Product;
 import com.wade.springbootexample.service.ProductService;
@@ -23,7 +24,11 @@ public class ProductController {
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search
     ){
-        List<Product> productList = productService.getProducts(category, search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }

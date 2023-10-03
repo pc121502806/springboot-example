@@ -1,7 +1,7 @@
 package com.wade.springbootexample.service.impl;
 
-import com.wade.springbootexample.constant.ProductCategory;
 import com.wade.springbootexample.dao.ProductDao;
+import com.wade.springbootexample.dto.ProductQueryParams;
 import com.wade.springbootexample.dto.ProductRequest;
 import com.wade.springbootexample.model.Product;
 import com.wade.springbootexample.service.ProductService;
@@ -17,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
-        return productDao.getProducts(category, search);
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
     }
 
     @Override
