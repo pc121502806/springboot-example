@@ -1,6 +1,7 @@
 package com.wade.springbootexample.service.impl;
 
 import com.wade.springbootexample.dao.UserDao;
+import com.wade.springbootexample.dto.UserLoginRequest;
 import com.wade.springbootexample.dto.UserRegisterRequest;
 import com.wade.springbootexample.model.User;
 import com.wade.springbootexample.service.UserService;
@@ -37,5 +38,22 @@ public class UserServiceImpl implements UserService {
 
         // Create user account
         return userDao.createUser(userRegisterRequest);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+
+        if (user == null) {
+            log.warn("This email {} has not been registered yet", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if (user.getPassword().equals(userLoginRequest.getPassword())) {
+            return user;
+        } else {
+            log.warn("This email {} password incorrect", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }
