@@ -5,6 +5,7 @@ import com.wade.springbootexample.dao.ProductDao;
 import com.wade.springbootexample.dao.UserDao;
 import com.wade.springbootexample.dto.BuyItem;
 import com.wade.springbootexample.dto.CreateOrderRequest;
+import com.wade.springbootexample.dto.OrderQueryParams;
 import com.wade.springbootexample.model.Order;
 import com.wade.springbootexample.model.OrderItem;
 import com.wade.springbootexample.model.Product;
@@ -32,6 +33,22 @@ public class OrderServiceImpl implements OrderService {
     private ProductDao productDao;
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        List<Order> orderList = orderDao.getOrders(orderQueryParams);
+
+        for (Order order : orderList){
+            List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(order.getOrderId());
+            order.setOrderItemList(orderItemList);
+        }
+        return orderList;
+    }
 
     @Override
     public Order getOrderById(Integer orderId) {
